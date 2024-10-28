@@ -1,1 +1,45 @@
-.idea/
+# Gradle
+.gradle
+chatBot/build/
+!chatBot/gradle/wrapper/gradle-wrapper.jar
+!chatBot/**/src/main/**/build/
+!chatBot/**/src/test/**/build/
+
+### IntelliJ IDEA ###
+chatBot/.idea/modules.xml
+chatBot/.idea/jarRepositories.xml
+chatBot/.idea/compiler.xml
+chatBot/.idea/libraries/
+chatBot/*.iws
+chatBot/*.iml
+chatBot/*.ipr
+chatBot/out/
+!chatBot/**/src/main/**/out/
+!chatBot/**/src/test/**/out/
+
+### Eclipse ###
+chatBot/.apt_generated
+chatBot/.classpath
+chatBot/.factorypath
+chatBot/.project
+chatBot/.settings
+chatBot/.springBeans
+chatBot/.sts4-cache
+chatBot/bin/
+!chatBot/**/src/main/**/bin/
+!chatBot/**/src/test/**/bin/
+
+### NetBeans ###
+chatBot/nbproject/private/
+chatBot/nbbuild/
+chatBot/dist/
+chatBot/nbdist/
+chatBot/.nb-gradle/
+
+### VS Code ###
+chatBot/.vscode/
+
+### Mac OS ###
+chatBot/.DS_Store
+chatBot/src/main/resources/config.properties
+

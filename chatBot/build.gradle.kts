@@ -7,10 +7,12 @@ plugins {
 dependencies {
   implementation("com.squareup.okhttp3:okhttp:4.9.3")
   implementation("org.json:json:20210307")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  implementation("com.vladsch.flexmark:flexmark-all:0.62.2")
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
   mavenCentral()
