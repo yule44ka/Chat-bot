@@ -8,23 +8,33 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.Properties
 
+/**
+ * ChatToolWindow class creates a chat window panel for interacting with an AI model.
+ * It provides a text area to display chat history and an input field for sending messages.
+ */
 class ChatToolWindow : JPanel(BorderLayout()) {
     private val chatArea = JTextArea().apply {
         isEditable = false
-        lineWrap = true // Позволяет тексту переноситься
-        wrapStyleWord = true // Переносит текст по словам
+        lineWrap = true
+        wrapStyleWord = true
     }
     private val inputField = JTextField()
     private val apiKey = loadApiKey()
-    private val messages = mutableListOf<JSONObject>() // Хранит историю сообщений
+    private val messages = mutableListOf<JSONObject>() // Stores the message history
 
     init {
+        val systemMessage = JSONObject().apply {
+            put("role", "system")
+            put("content", "You are a helpful assistant that responds to user questions in IntelliJ IDEA. Do not use markdown.")
+        }
+        messages.add(systemMessage)
+
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
 
-        // Добавление JScrollPane для области чата
+        // Add JScrollPane for the chat area
         val scrollPane = JScrollPane(chatArea).apply {
-            preferredSize = java.awt.Dimension(400, 600) // Установка предпочтительного размера
-            verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED // Прокрутка по необходимости
+            preferredSize = java.awt.Dimension(400, 600) // Set preferred size
+            verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         }
 
         add(scrollPane)
@@ -40,18 +50,26 @@ class ChatToolWindow : JPanel(BorderLayout()) {
         }
     }
 
+    /**
+     * Adds a message to the chat area.
+     * @param message The message to display.
+     */
     private fun addMessage(message: String) {
         chatArea.append("$message\n")
-        chatArea.caretPosition = chatArea.text.length // Перемещает каретку в конец текста
-        chatArea.repaint() // Перерисовывает область чата
+        chatArea.caretPosition = chatArea.text.length
+        chatArea.repaint()
     }
 
+    /**
+     * Handles the user message by sending it to the AI model and displaying the response.
+     * @param message The user message to send.
+     */
     private fun handleUserMessage(message: String) {
         val userMessageJson = JSONObject().apply {
             put("role", "user")
             put("content", message)
         }
-        messages.add(userMessageJson) // Добавляем сообщение пользователя в историю
+        messages.add(userMessageJson)
 
         getAIResponse { botResponse ->
             addMessage("Bot: $botResponse")
@@ -59,17 +77,21 @@ class ChatToolWindow : JPanel(BorderLayout()) {
                 put("role", "assistant")
                 put("content", botResponse)
             }
-            messages.add(botMessageJson) // Добавляем ответ бота в историю
+            messages.add(botMessageJson)
         }
     }
 
+    /**
+     * Sends the entire message history to the AI model and processes the response.
+     * @param callback A function to handle the response from the AI model.
+     */
     private fun getAIResponse(callback: (String) -> Unit) {
         val client = OkHttpClient()
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
-            put("messages", JSONArray(messages)) // Отправляем всю историю сообщений
+            put("messages", JSONArray(messages))
             put("max_tokens", 500)
         }.toString().toRequestBody("application/json".toMediaType())
 
@@ -81,7 +103,7 @@ class ChatToolWindow : JPanel(BorderLayout()) {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                callback("Ошибка: ${e.message}")
+                callback("Error: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -97,20 +119,29 @@ class ChatToolWindow : JPanel(BorderLayout()) {
                         callback(botResponse)
                     }
                 } else {
-                    callback("Ошибка ответа от сервера")
+                    callback("Server response error")
                 }
             }
         })
     }
 
+    /**
+     * Loads the API key from the config.properties file.
+     * @return The API key as a String.
+     * @throws IllegalStateException if the config.properties file or the API key is not found.
+     */
     private fun loadApiKey(): String {
         val properties = Properties()
         val inputStream = javaClass.getResourceAsStream("/config.properties")
-            ?: throw IllegalStateException("Не удалось найти файл config.properties")
+            ?: throw IllegalStateException("Could not find config.properties file")
         inputStream.use { properties.load(it) }
         return properties.getProperty("apiKey")
-            ?: throw IllegalStateException("API ключ не найден в файле config.properties")
+            ?: throw IllegalStateException("API key not found in config.properties")
     }
 
+    /**
+     * Returns the content panel.
+     * @return The JPanel containing the chat window.
+     */
     fun getContent() = this
 }

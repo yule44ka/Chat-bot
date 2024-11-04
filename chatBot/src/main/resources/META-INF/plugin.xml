@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.example.chatBot</id>
   <name>Chat Bot</name>
-  <vendor email="yulya.lyutova.04@gmail.com" url="TBA">Iuliia Liutova</vendor>
+  <vendor email="yulya.lyutova.04@gmail.com" url="https://github.com/yule44ka/Chat-bot">Iuliia Liutova</vendor>
   <description>
     A plugin that provides a chat-based assistant for helping with code-related questions in IntelliJ IDEA.
   </description>
@@ -10,8 +10,8 @@
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="AI Assistant Bot"
       anchor="right"
-      factoryClass="ChatToolWindowFactory"
+      factoryClass="org.example.chatbot.ChatToolWindowFactory"
       canCloseContents="true"
-      canWorkInDumbMode="true"/>
+    />
   </extensions>
 </idea-plugin>

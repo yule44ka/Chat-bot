@@ -16,6 +16,7 @@ chatBot/*.ipr
 chatBot/out/
 !chatBot/**/src/main/**/out/
 !chatBot/**/src/test/**/out/
+.idea/
 
 ### Eclipse ###
 chatBot/.apt_generated
