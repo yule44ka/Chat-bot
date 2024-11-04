@@ -25,7 +25,10 @@ class ChatToolWindow : JPanel(BorderLayout()) {
     init {
         val systemMessage = JSONObject().apply {
             put("role", "system")
-            put("content", "You are a helpful assistant that responds to user questions in IntelliJ IDEA. Do not use markdown.")
+            put(
+                "content",
+                "You are a helpful assistant that responds to user questions in IntelliJ IDEA. Do not use markdown."
+            )
         }
         messages.add(systemMessage)
 

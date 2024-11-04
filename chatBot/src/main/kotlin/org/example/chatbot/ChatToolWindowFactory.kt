@@ -19,7 +19,8 @@ class ChatToolWindowFactory : ToolWindowFactory, DumbAware {
      */
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val chatToolWindow = ChatToolWindow()
-        val content = toolWindow.contentManager.factory.createContent(chatToolWindow.getContent(), "", false)
+        val content =
+            toolWindow.contentManager.factory.createContent(chatToolWindow.getContent(), "", false)
         toolWindow.contentManager.addContent(content)
     }
 }

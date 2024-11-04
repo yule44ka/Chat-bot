@@ -1,17 +1,20 @@
 <idea-plugin>
-  <id>org.example.chatBot</id>
-  <name>Chat Bot</name>
-  <vendor email="yulya.lyutova.04@gmail.com" url="https://github.com/yule44ka/Chat-bot">Iuliia Liutova</vendor>
-  <description>
-    A plugin that provides a chat-based assistant for helping with code-related questions in IntelliJ IDEA.
-  </description>
   <depends>com.intellij.modules.platform</depends>
   <depends>org.jetbrains.kotlin</depends>
+  <description>
+    A plugin that provides a chat-based assistant for helping with code-related questions in
+    IntelliJ IDEA.
+  </description>
   <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="AI Assistant Bot"
-      anchor="right"
-      factoryClass="org.example.chatbot.ChatToolWindowFactory"
+    <toolWindow anchor="right"
       canCloseContents="true"
+      factoryClass="org.example.chatbot.ChatToolWindowFactory"
+      id="AI Assistant Bot"
     />
   </extensions>
+  <id>org.example.chatBot</id>
+  <name>Chat Bot</name>
+  <vendor email="yulya.lyutova.04@gmail.com" url="https://github.com/yule44ka/Chat-bot">Iuliia
+    Liutova
+  </vendor>
 </idea-plugin>
